@@ -3,9 +3,9 @@ package br.com.fiap.banco.dao;
 import br.com.fiap.banco.factory.ConnectionFactory;
 import br.com.fiap.banco.model.Funcionario;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
+import javax.xml.transform.Result;
+import java.sql.*;
+import java.util.ArrayList;
 import java.util.List;
 
 public class FuncionarioDAO {
@@ -38,5 +38,26 @@ public class FuncionarioDAO {
 
     public Funcionario buscar(int codigo){ return null;}
 
-    public List<Funcionario> listar (){return null;}
+    public List<Funcionario> listar () throws SQLException{
+
+        Statement stmt = conexao.createStatement();
+
+        ResultSet result = stmt.executeQuery("select * from t_tdspw_funcionario");
+
+        List<Funcionario> funcionarios = new ArrayList<>();
+
+        while (result.next()) {
+
+            int codigo = result.getInt("cd_funcionario");
+            String nome = result.getString("nm_funcionario");
+            double salario = result.getDouble("vl_salario");
+            boolean ativo = result.getBoolean("st_ativo");
+            String email = result.getString("ds_email");
+
+            Funcionario funcionario = new Funcionario(codigo, nome, salario, ativo, email);
+
+            funcionarios.add(funcionario);
+        }
+        return funcionarios;
+    }
 }
