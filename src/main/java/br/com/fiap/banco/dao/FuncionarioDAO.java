@@ -32,7 +32,18 @@ public class FuncionarioDAO {
     }
 
 
-    public void atualizar (Funcionario funcionario){}
+    public void atualizar (Funcionario funcionario) throws SQLException{
+        PreparedStatement stmt = conexao.prepareStatement("update t_tdspw_funcionario set nm_funcionario = ?," +
+                "vl_salario = ?, st_ativo = ?, ds_email = ? where cd_funcionario = ?");
+        stmt.setInt(5, funcionario.getCodigo());
+        stmt.setString(1, funcionario.getNome());
+        stmt.setDouble(2, funcionario.getSalario());
+        stmt.setBoolean(3, funcionario.isAtivo());
+        stmt.setString(4, funcionario.getEmail());
+
+        stmt.executeUpdate();
+
+    }
 
     public void remover(int codigo){}
 
